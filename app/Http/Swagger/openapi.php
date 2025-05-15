@@ -65,7 +65,7 @@
  *         @OA\Property(property="email", type="string"),
  *         @OA\Property(property="role", type="string")
  *     )
- * )
+ * ),
  *
  * @OA\Schema(
  *     schema="User",
@@ -76,6 +76,17 @@
  *     @OA\Property(property="role", type="string"),
  *     @OA\Property(property="phone", type="string", nullable=true),
  *     @OA\Property(property="address", type="string", nullable=true)
+ * ),
+ * /**
+ * @OA\Schema(
+ *     schema="Property",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="Beautiful House"),
+ *     @OA\Property(property="description", type="string", example="A beautiful 3-bedroom house"),
+ *     @OA\Property(property="price", type="number", format="float", example=250000.00),
+ *     @OA\Property(property="address", type="string", example="1234 Elm Street"),
+ *     @OA\Property(property="landlord_id", type="integer", example=1)
  * )
  * )
  */
