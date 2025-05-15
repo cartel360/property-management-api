@@ -216,7 +216,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -267,7 +267,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -551,6 +551,260 @@
                     },
                     "404": {
                         "description": "Lease not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Get a list of payments",
+                "operationId": "c7578bcdb2dcdcb79a60bd856353c8f0",
+                "responses": {
+                    "200": {
+                        "description": "List of payments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Payment"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Record a new payment",
+                "operationId": "37d34a99a3830d1b8d26d763f708189f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lease_id",
+                                    "amount",
+                                    "payment_date",
+                                    "payment_method"
+                                ],
+                                "properties": {
+                                    "lease_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    },
+                                    "payment_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-15"
+                                    },
+                                    "payment_method": {
+                                        "type": "string",
+                                        "example": "Credit Card"
+                                    },
+                                    "transaction_reference": {
+                                        "type": "string",
+                                        "example": "TXN12345"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "completed"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Payment for May rent"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment recorded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments/{id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Get a specific payment",
+                "operationId": "5c67ab62eba7c73e5257ca76a7b96e6f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Update payment details",
+                "operationId": "12517d573cf205e4dba739dfb32f055d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 250
+                                    },
+                                    "payment_method": {
+                                        "type": "string",
+                                        "example": "Debit Card"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "completed"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Updated payment details"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Delete a payment",
+                "operationId": "50d0b362b6528441bd40a4845628d855",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment deleted successfully"
+                    },
+                    "404": {
+                        "description": "Payment not found"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -1321,6 +1575,61 @@
                 },
                 "type": "object"
             },
+            "Payment": {
+                "required": [
+                    "lease_id",
+                    "amount",
+                    "payment_date",
+                    "payment_method"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "lease_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 200
+                    },
+                    "payment_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-05-15"
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "example": "Credit Card"
+                    },
+                    "transaction_reference": {
+                        "type": "string",
+                        "example": "TXN12345"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "completed"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Payment for May rent"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
             "Property": {
                 "required": [
                     "id",
@@ -1507,24 +1816,28 @@
     },
     "tags": [
         {
+            "name": "Authentication",
+            "description": "API endpoints for user authentication"
+        },
+        {
             "name": "Leases",
             "description": "API endpoints for managing leases"
         },
         {
-            "name": "Tenants",
-            "description": "API endpoints for managing tenants"
-        },
-        {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "Payments",
+            "description": "API endpoints for managing payments"
         },
         {
             "name": "Properties",
-            "description": "Properties"
+            "description": "API endpoints for managing properties"
         },
         {
             "name": "Units",
-            "description": "Units"
+            "description": "API endpoints for managing units"
+        },
+        {
+            "name": "Tenants",
+            "description": "API endpoints for managing tenants"
         }
     ]
 }

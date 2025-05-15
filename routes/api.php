@@ -25,5 +25,11 @@ Route::prefix('v1')->group(function () {
 
         // Lease routes
         Route::apiResource('leases', \App\Http\Controllers\Leases\LeaseController::class);
+
+        // Tenant routes
+        Route::apiResource('tenants', \App\Http\Controllers\Tenants\TenantController::class);
+
+        // Payment routes
+        Route::apiResource('payments', \App\Http\Controllers\Payments\PaymentController::class);
     });
 });

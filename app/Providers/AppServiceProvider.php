@@ -28,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Lease\LeaseRepository::class,
         );
 
+        $this->app->bind(
+            \App\Repositories\Payment\PaymentRepositoryInterface::class,
+            \App\Repositories\Payment\PaymentRepository::class,
+        );
+
     }
 
     /**
