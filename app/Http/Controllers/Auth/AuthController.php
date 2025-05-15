@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @OA\Tag(
+ *     name="Authentication",
+ *     description="API endpoints for user authentication"
+ * )
+ */
 class AuthController extends Controller
 {
     /**

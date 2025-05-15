@@ -49,7 +49,7 @@ class LeaseController extends Controller
      *     path="/api/v1/leases",
      *     summary="Get a list of leases",
      *     tags={"Leases"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="A list of leases",
@@ -75,7 +75,7 @@ class LeaseController extends Controller
      *     path="/api/v1/leases",
      *     summary="Create a new lease",
      *     tags={"Leases"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -133,7 +133,7 @@ class LeaseController extends Controller
      *     path="/api/v1/leases/{id}",
      *     summary="Get a lease by ID",
      *     tags={"Leases"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -173,7 +173,7 @@ class LeaseController extends Controller
      *     path="/api/v1/leases/{id}",
      *     summary="Update a lease",
      *     tags={"Leases"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -230,7 +230,7 @@ class LeaseController extends Controller
      *     path="/api/v1/leases/{id}",
      *     summary="Delete a lease",
      *     tags={"Leases"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

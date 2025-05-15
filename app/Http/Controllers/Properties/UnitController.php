@@ -10,6 +10,13 @@ use App\Repositories\Unit\UnitRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+
+/**
+ * @OA\Tag(
+ *     name="Units",
+ *     description="API endpoints for managing units"
+ * )
+ */
 class UnitController extends Controller
 {
     /**

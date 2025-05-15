@@ -16,6 +16,13 @@ use OpenApi\Annotations as OA;
 
 use Illuminate\Routing\Controller as BaseController;
 
+
+/**
+ * @OA\Tag(
+ *     name="Properties",
+ *     description="API endpoints for managing properties"
+ * )
+ */
 class PropertyController extends BaseController
 {
      /**
@@ -45,7 +52,7 @@ class PropertyController extends BaseController
      *     path="/api/v1/properties",
      *     summary="Get a list of properties",
      *     tags={"Properties"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="A list of properties",
@@ -74,7 +81,7 @@ class PropertyController extends BaseController
      *     path="/api/v1/properties",
      *     summary="Store a new property",
      *     tags={"Properties"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -135,7 +142,7 @@ class PropertyController extends BaseController
      *     path="/api/v1/properties/{id}",
      *     summary="Get a single property by ID",
      *     tags={"Properties"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -178,7 +185,7 @@ class PropertyController extends BaseController
      *     path="/api/v1/properties/{id}",
      *     summary="Update an existing property",
      *     tags={"Properties"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -235,7 +242,7 @@ class PropertyController extends BaseController
      *     path="/api/v1/properties/{id}",
      *     summary="Delete a property",
      *     tags={"Properties"},
-     *     security={{"bearerAuth":{}}},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
