@@ -272,6 +272,297 @@
                 ]
             }
         },
+        "/api/v1/leases": {
+            "get": {
+                "tags": [
+                    "Leases"
+                ],
+                "summary": "Get a list of leases",
+                "operationId": "18a60b8629018dbb8b1a2f0b3c72ef7a",
+                "responses": {
+                    "200": {
+                        "description": "A list of leases",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Lease"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Leases"
+                ],
+                "summary": "Create a new lease",
+                "operationId": "ae69847b3f05e786d3dc088bd731cf19",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unit_id",
+                                    "tenant_id",
+                                    "start_date",
+                                    "end_date",
+                                    "monthly_rent",
+                                    "security_deposit",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "unit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tenant_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-01"
+                                    },
+                                    "monthly_rent": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1200
+                                    },
+                                    "security_deposit": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 2400
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "active"
+                                    },
+                                    "terms": {
+                                        "type": "string",
+                                        "example": "Standard lease agreement terms"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lease created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lease"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unit already leased"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/leases/{id}": {
+            "get": {
+                "tags": [
+                    "Leases"
+                ],
+                "summary": "Get a lease by ID",
+                "operationId": "8646de7b6db63d0296034969fa80106e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lease data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lease"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lease not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Leases"
+                ],
+                "summary": "Update a lease",
+                "operationId": "48e72b5f84cd73e87689b066595ade88",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unit_id",
+                                    "tenant_id",
+                                    "start_date",
+                                    "end_date",
+                                    "monthly_rent",
+                                    "security_deposit",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "unit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tenant_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-01"
+                                    },
+                                    "monthly_rent": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1200
+                                    },
+                                    "security_deposit": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 2400
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "active"
+                                    },
+                                    "terms": {
+                                        "type": "string",
+                                        "example": "Standard lease agreement terms"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lease updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lease"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lease not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Leases"
+                ],
+                "summary": "Delete a lease",
+                "operationId": "94ebc39409f00eb2e463e36f4488ea9a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lease deleted successfully"
+                    },
+                    "404": {
+                        "description": "Lease not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/properties": {
             "get": {
                 "tags": [
@@ -682,6 +973,70 @@
     },
     "components": {
         "schemas": {
+            "Lease": {
+                "required": [
+                    "unit_id",
+                    "tenant_id",
+                    "start_date",
+                    "end_date",
+                    "monthly_rent",
+                    "security_deposit",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "unit_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tenant_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-06-01"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-06-01"
+                    },
+                    "monthly_rent": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1200
+                    },
+                    "security_deposit": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 2400
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "active"
+                    },
+                    "terms": {
+                        "type": "string",
+                        "example": "Standard lease agreement terms"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
             "Property": {
                 "required": [
                     "id",
@@ -786,7 +1141,7 @@
                     },
                     "status": {
                         "type": "string",
-                        "example": "available"
+                        "example": "vacant"
                     },
                     "created_at": {
                         "type": "string",
@@ -804,6 +1159,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Leases",
+            "description": "API endpoints for managing leases"
+        },
         {
             "name": "Authentication",
             "description": "Authentication"

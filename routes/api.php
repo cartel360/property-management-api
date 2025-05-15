@@ -19,8 +19,11 @@ Route::prefix('v1')->group(function () {
         // Property routes
         Route::apiResource('properties', \App\Http\Controllers\Properties\PropertyController::class);
 
-        // // Unit routes
+        // Unit routes
         Route::apiResource('properties.units', \App\Http\Controllers\Properties\UnitController::class)
             ->shallow();
+
+        // Lease routes
+        Route::apiResource('leases', \App\Http\Controllers\Leases\LeaseController::class);
     });
 });
