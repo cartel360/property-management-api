@@ -19,6 +19,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Unit\UnitRepositoryInterface::class,
             \App\Repositories\Unit\UnitRepository::class,
         );
+        $this->app->bind(
+            \App\Repositories\Tenant\TenantRepositoryInterface::class,
+            \App\Repositories\Tenant\TenantRepository::class,
+        );
+        $this->app->bind(
+            \App\Repositories\Lease\LeaseRepositoryInterface::class,
+            \App\Repositories\Lease\LeaseRepository::class,
+        );
 
     }
 
