@@ -10,6 +10,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Tenants\StoreTenantRequest;
 use App\Http\Requests\Tenants\UpdateTenantRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @OA\Tag(
@@ -70,9 +72,20 @@ class TenantController extends Controller
      */
      public function index(Request $request): AnonymousResourceCollection
     {
-        $tenants = $request->has('search')
-            ? $this->tenantRepository->search($request->search)
-            : $this->tenantRepository->paginate();
+        $cacheKey = 'tenants_' . $request->user()->id;
+        $perPage = $request->per_page ?? 15;
+
+
+        $tenants = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(10),
+            function () use ($request, $perPage) {
+            return $request->has('search')
+                ? $this->tenantRepository->search($request->search)
+                : $this->tenantRepository->paginate($perPage);
+        });
+
+        Log::info('Tenants fetched from cache', ['cacheKey' => $cacheKey]);
 
         return TenantResource::collection($tenants);
     }
@@ -114,6 +127,10 @@ class TenantController extends Controller
     public function store(StoreTenantRequest $request): JsonResponse
     {
         $tenant = $this->tenantRepository->create($request->validated());
+
+        // Invalidate the cache for the specific tenant
+        $cacheKey = 'tenants_' . $request->user()->id;
+        Cache::forget($cacheKey);
 
         return response()->json([
             'data' => new TenantResource($tenant),
@@ -211,6 +228,10 @@ class TenantController extends Controller
 
         $this->tenantRepository->update($id, $request->validated());
 
+        // Invalidate the cache for the specific tenant
+        $cacheKey = 'tenants_' . $request->user()->id;
+        Cache::forget($cacheKey);
+
         return response()->json([
             'data' => new TenantResource($tenant->fresh()),
             'message' => 'Tenant updated successfully'
@@ -250,6 +271,10 @@ class TenantController extends Controller
         if (!$tenant) {
             return response()->json(['message' => 'Tenant not found'], 404);
         }
+
+        // Invalidate the cache for the specific tenant
+        $cacheKey = 'tenants_' . $tenant->user_id;
+        Cache::forget($cacheKey);
 
         $this->tenantRepository->delete($id);
 

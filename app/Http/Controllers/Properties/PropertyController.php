@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 use OpenApi\Annotations as OA;
 
@@ -69,9 +70,18 @@ class PropertyController extends BaseController
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $properties = $request->user()->isAdmin() || $request->user()->isAgent()
-            ? $this->propertyRepository->paginate()
-            : $this->propertyRepository->forLandlord($request->user()->id);
+        $cacheKey = 'properties_' . $request->user()->id;
+        $perPage = $request->per_page ?? 15;
+
+        $properties = Cache::remember(
+            $cacheKey,
+            now()->addHour(),
+            function () use ($request, $perPage) {
+                return  $request->user()->isAdmin() || $request->user()->isAgent()
+                ? $this->propertyRepository->paginate($perPage)
+                : $this->propertyRepository->forLandlord($request->user()->id);
+            });
+        Log::info('Properties fetched from cache', ['cacheKey' => $cacheKey]);
 
         return PropertyResource::collection($properties);
     }
@@ -108,28 +118,13 @@ class PropertyController extends BaseController
      */
     public function store(StorePropertyRequest $request): JsonResponse
     {
-        Log::info("Property data", $request->all());
-
-        // Check the user authentication
-        $user = $request->user();
-        if (!$user) {
-            Log::info('User is not authenticated');
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        Log::info('Authenticated User:', ['user' => $user]);
-
-        // Check if the user role is correct
-        if (!in_array($user->role, ['admin', 'agent', 'landlord'])) {
-            Log::info('User does not have the correct role');
-            return response()->json(['message' => 'Unauthorized: Insufficient Role'], 403);
-        }
-
         $data = $request->validated();
-        Log::info("Property data", $data);
         $data['landlord_id'] = $request->user()->id;
 
         $property = $this->propertyRepository->create($data);
+
+        // Invalidate cache
+        Cache::forget('properties_' . $request->user()->id);
 
         return response()->json([
             'data' => new PropertyResource($property),
@@ -231,6 +226,9 @@ class PropertyController extends BaseController
 
         $this->propertyRepository->update($id, $request->validated());
 
+        // Invalidate cache for landlord
+        Cache::forget('properties_' . $property->landlord_id);
+
         return response()->json([
             'data' => new PropertyResource($property->fresh()),
             'message' => 'Property updated successfully'
@@ -274,6 +272,9 @@ class PropertyController extends BaseController
         if (!$property) {
             return response()->json(['message' => 'Property not found'], 404);
         }
+
+        // Invalidate cache before deletion
+        Cache::forget('properties_' . $property->landlord_id);
 
         $this->propertyRepository->delete($id);
 
