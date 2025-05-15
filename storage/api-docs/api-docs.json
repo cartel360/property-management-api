@@ -493,6 +493,191 @@
                     }
                 ]
             }
+        },
+        "/api/v1/properties/{propertyId}/units": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get all units for a property",
+                "operationId": "9960aa6c69f07009306ec53d15bc11b5",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of units",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Unit"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Create a new unit for a property",
+                "operationId": "08fc5ad7012bec08c1d2f4729d2571a1",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Unit"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Unit created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v1/units/{id}": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get a specific unit",
+                "operationId": "892878806c56fc1e4b197c8f429e1868",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unit details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Update an existing unit",
+                "operationId": "34ca82b2c541c6ecb3e80f4792ecc8b4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Unit"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Unit updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Delete a unit",
+                "operationId": "6bea3972e3d54a47e8fff0406a217b17",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unit deleted successfully"
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -548,6 +733,73 @@
                     }
                 },
                 "type": "object"
+            },
+            "Unit": {
+                "required": [
+                    "unit_number",
+                    "rent_amount",
+                    "size",
+                    "bedrooms",
+                    "bathrooms",
+                    "features",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "property_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "unit_number": {
+                        "type": "string",
+                        "example": "A101"
+                    },
+                    "rent_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1200
+                    },
+                    "size": {
+                        "type": "number",
+                        "example": 50
+                    },
+                    "bedrooms": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "bathrooms": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "balcony",
+                            "parking"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "available"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-15T12:00:00Z"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -559,6 +811,10 @@
         {
             "name": "Properties",
             "description": "Properties"
+        },
+        {
+            "name": "Units",
+            "description": "Units"
         }
     ]
 }

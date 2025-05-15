@@ -20,17 +20,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('properties', \App\Http\Controllers\Properties\PropertyController::class);
 
         // // Unit routes
-        // Route::apiResource('properties.units', \App\Http\Controllers\Properties\UnitController::class)
-        //     ->shallow();
-
-        // // Tenant routes
-        // Route::apiResource('tenants', \App\Http\Controllers\Tenants\TenantController::class);
-
-        // // Lease routes
-        // Route::apiResource('leases', \App\Http\Controllers\Leases\LeaseController::class);
-
-        // // Payment routes
-        // Route::apiResource('payments', \App\Http\Controllers\Payments\PaymentController::class);
-        // });
+        Route::apiResource('properties.units', \App\Http\Controllers\Properties\UnitController::class)
+            ->shallow();
     });
 });
