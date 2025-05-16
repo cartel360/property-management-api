@@ -18,7 +18,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
 
-        // Route::middleware('role:admin,agent,landlord')->group(function () {
         // Property routes
         Route::middleware('throttle:59,1')->apiResource('properties', \App\Http\Controllers\Properties\PropertyController::class);
 
