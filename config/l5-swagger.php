@@ -5,7 +5,16 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'Property Management API',
+                'description' => 'API documentation for the Property Management System',
+                'version' => env('APP_VERSION', '1.0.0'),
+                'basePath' => env('L5_SWAGGER_BASE_PATH', '/api/v1'),
+                'schemes' => [
+                    env('L5_SWAGGER_SCHEME', 'http'),
+                ],
+                'host' => env('L5_SWAGGER_HOST', 'localhost:8000'),
+                'termsOfService' => env('L5_SWAGGER_TERMS_OF_SERVICE', 'http://example.com/terms'),
+
             ],
 
             'routes' => [
@@ -216,13 +225,14 @@ return [
                         ],
                     ],
                 ],
+                */
                 'sanctum' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Enter token in format (Bearer <token>)',
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
-                */
+
             ],
             'security' => [
                 /*
@@ -307,6 +317,17 @@ return [
                  * If set to true, it persists authorization data, and it would not be lost on browser close/refresh
                  */
                 'persist_authorization' => env('L5_SWAGGER_UI_PERSIST_AUTHORIZATION', false),
+                'securityDefinitions' => [
+                    'bearerAuth' => [
+                        'type' => 'apiKey',
+                        'in' => 'header',
+                        'name' => 'Authorization',
+                        'description' => 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"',
+                    ]
+                ],
+
+                // Enable the "Authorize" button
+                'display_operation_id' => True,
 
                 'oauth2' => [
                     /*

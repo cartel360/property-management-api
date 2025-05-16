@@ -106,8 +106,8 @@ class PaymentController extends Controller
         $data = $request->validated();
         $payment = $this->paymentRepository->create($data);
 
-        // Dispatch job to send payment receipt
-        dispatch(new SendPaymentReceipt($payment));
+        // Dispatch payment receipt job
+        dispatch((new SendPaymentReceipt($payment))->delay(now()->addSeconds(10))); // Optional delay
 
         return response()->json([
             'data' => new PaymentResource($payment),

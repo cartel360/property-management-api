@@ -122,6 +122,10 @@ class LeaseController extends Controller
 
         $lease = $this->leaseRepository->create($data);
 
+        // Update the unit status to 'occupied'
+        $unit = $lease->unit;
+        $unit->update(['status' => 'occupied']);
+
         return response()->json([
             'data' => new LeaseResource($lease),
             'message' => 'Lease created successfully'

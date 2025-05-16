@@ -170,5 +170,11 @@ return [
         ],
 
     ],
+    // 'testing' => [
+    //     'driver' => 'sqlite',
+    //     'database' => storage_path('testing.sqlite'),
+    //     'prefix' => '',
+    //     'foreign_key_constraints' => true,
+    // ],
 
 ];
