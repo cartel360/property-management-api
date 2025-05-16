@@ -193,4 +193,24 @@ class LeaseControllerTest extends TestCase
 
         $this->assertSoftDeleted($lease);
     }
+
+    public function test_can_get_all_leases(): void
+    {
+        // Create a Property before creating Unit and Tenant
+        $property = Property::factory()->create();
+
+        // Create a Unit associated with the Property
+        $unit = Unit::factory()->create(['property_id' => $property->id]);
+
+        // Create a Tenant for the Lease
+        $tenant = Tenant::factory()->create();
+
+        // Seed some lease data
+        Lease::factory(5)->create();
+
+        $response = $this->actingAs($this->admin)->getJson('/api/v1/leases');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(5, 'data');
+    }
 }

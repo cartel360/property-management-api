@@ -21,6 +21,13 @@ class ProfileEndpoints extends Command
     public function handle()
     {
         $user = \App\Models\User::find($this->option('user'));
+
+        // Check if user is found
+        if (!$user) {
+            $this->error('No query results for model'); // Custom error message
+            return 1; // Exit with failure code
+        }
+
         $token = $user->createToken('profiling-token')->plainTextToken;
 
         $property = Property::first();
@@ -159,7 +166,9 @@ class ProfileEndpoints extends Command
                 'X-Telescope' => 'true',
             ])->{$method}("http://localhost:8000{$url}", $data);
 
-            $times[] = $response->handlerStats()['total_time'] * 1000; // ms
+            // $times[] = $response->handlerStats()['total_time'] * 1000; // ms
+            $handlerStats = $response->handlerStats();
+            $times[] = isset($handlerStats['total_time']) ? $handlerStats['total_time'] * 1000 : 0; // ms
             $memory[] = memory_get_peak_usage(true) / 1024 / 1024; // MB
         }
 

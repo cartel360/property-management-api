@@ -40,9 +40,7 @@ class LeaseController extends Controller
      */
     public function __construct(
         private LeaseRepositoryInterface $leaseRepository
-    ) {
-
-    }
+    ) {}
 
     /**
      * @OA\Get(
