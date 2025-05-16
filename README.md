@@ -338,3 +338,7 @@ The structure is designed to be **clean**, **maintainable**, and **modular**, in
 
 For a detailed breakdown of the code coverage, see the full report [here](storage/test-coverage/index.html).
 
+Alternatively, view the test coverage in the report generated locally in the `storage/test-coverage` directory.
+
+![Coverage Screenshot](image.png)
+
