@@ -27,6 +27,11 @@ class SendPaymentReceipt implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info("Payment receipt sent for payment ID: {$this->payment->id}");
+        // Simulate sending email by logging
+        Log::info("Payment receipt sent for Payment ID: {$this->payment->id}", [
+            'amount' => $this->payment->amount,
+            'tenant' => $this->payment->lease->tenant->name,
+            'date' => $this->payment->payment_date,
+        ]);
     }
 }
