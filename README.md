@@ -330,3 +330,11 @@ Each directory and file in the project has a **clear responsibility**. Whether i
 ### Why This Architecture Works for Me:
 
 The structure is designed to be **clean**, **maintainable**, and **modular**, in line with Laravel's best practices. By grouping everything within a single `app/` folder but organizing it by domains, I ensure flexibility and scalability without overcomplicating things. This approach makes it easy to extend and maintain the app, and it allows for straightforward addition of new features as the application grows.
+
+---
+
+
+### Coverage Report
+
+For a detailed breakdown of the code coverage, see the full report [here](storage/test-coverage/index.html).
+
