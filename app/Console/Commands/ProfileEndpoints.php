@@ -190,8 +190,48 @@ class ProfileEndpoints extends Command
             }
         }
 
+        // Start HTML Report
+        $htmlReport = '<html><head><title>API Performance Report</title></head><body>';
+        $htmlReport .= '<h1>API Performance Report</h1>';
+        $htmlReport .= '<p>Generated on: ' . now()->toDateTimeString() . '</p>';
+
+        foreach ($results as $endpoint => $metrics) {
+            $report .= "## $endpoint\n";
+            $report .= "- Average Time: {$metrics['avg_time']}ms\n";
+            $report .= "- Average Memory: {$metrics['avg_memory']}MB\n";
+            $report .= "- [Telescope Details]({$metrics['telescope_url']})\n\n";
+
+            // Add the same data to the HTML report
+            $htmlReport .= "<h2>$endpoint</h2>";
+            $htmlReport .= "<ul>";
+            $htmlReport .= "<li><strong>Average Time:</strong> {$metrics['avg_time']}ms</li>";
+            $htmlReport .= "<li><strong>Average Memory:</strong> {$metrics['avg_memory']}MB</li>";
+            $htmlReport .= "<li><a href='{$metrics['telescope_url']}'>Telescope Details</a></li>";
+
+            // Auto-generate improvement suggestions
+            if ($metrics['avg_time'] > 500) {
+                $report .= "### Suggested Improvements\n";
+                $report .= "- Investigate slow queries in Telescope\n";
+                $report .= "- Consider adding caching\n";
+                $report .= "- Check for N+1 problems\n\n";
+
+                // Add to HTML suggestions
+                $htmlReport .= "<h3>Suggested Improvements</h3>";
+                $htmlReport .= "<ul>";
+                $htmlReport .= "<li>Investigate slow queries in Telescope</li>";
+                $htmlReport .= "<li>Consider adding caching</li>";
+                $htmlReport .= "<li>Check for N+1 problems</li>";
+                $htmlReport .= "</ul>";
+            }
+            $htmlReport .= "</ul>";
+        }
+
+        // Close HTML tags
+        $htmlReport .= '</body></html>';
+
         // Save the report to the storage
         Storage::put('reports/performance-' . now()->format('Y-m-d') . '.md', $report);
-        $this->info("Report generated: storage/app/reports/performance-" . now()->format('Y-m-d') . ".md");
+        Storage::put('reports/performance-' . now()->format('Y-m-d') . '.html', $htmlReport);
+
     }
 }
