@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+
+  webserver:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app

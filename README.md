@@ -6,7 +6,7 @@ This guide will walk you through setting up the project, configuring your enviro
 
 Before setting up the application, ensure you have the following installed:
 
-* **PHP** 8.0 or higher
+* **PHP** 8.2 or higher
 * **Composer** (for managing PHP dependencies)
 * **Node.js** (for managing frontend assets)
 * **Docker** (for containerization, optional)
@@ -105,33 +105,68 @@ This will run the profiling script and generate a performance improvement report
 
 The generated report will be saved in the storage\app\private\reports directory. You can view the report by opening the file in your browser or text editor.
 
----
 
 ## **9. Set Up Docker (Optional)**
 
-The project already includes a `Dockerfile` for containerization. To run the app with Docker, follow these steps:
+The project already includes a `Dockerfile` for containerization. To run the app with Docker Compose, follow these steps:
 
-### 9.1 **Build the Docker Image**
+### 9.1 **Install Docker Compose**
 
-To build the Docker image, use the following command in your terminal:
+Make sure you have Docker and Docker Compose installed on your machine. You can follow the official installation guides:
+
+* [Install Docker](https://docs.docker.com/get-docker/)
+* [Install Docker Compose](https://docs.docker.com/compose/install/)
+
+### 9.2 **Build and Start the Application with Docker Compose**
+
+1. **Build and Start Containers**
+   In your project directory, run the following command to build and start the containers defined in the `docker-compose.yml` file:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   This command will:
+
+   * Build the Docker images based on the `Dockerfile` and `docker-compose.yml`.
+   * Start the app and Nginx containers.
+
+2. **Access the Application**
+   Once the containers are up and running, you can access your Laravel app at:
+
+   ```url
+   http://localhost:8000
+   ```
+
+   This will serve your app via Nginx, which is set up to forward requests to the PHP-FPM service.
+
+### 9.3 **Run Containers in Detached Mode (Optional)**
+
+If you'd prefer to run the containers in the background (detached mode), you can add the `-d` flag:
 
 ```bash
-docker build -t property-management-api .
+docker-compose up --build -d
 ```
 
-This will build the Docker image based on the `Dockerfile` in your project directory.
-
-### 9.2 **Run the Docker Container**
-
-Once the image is built, run the Docker container:
+This will run the containers in the background, allowing you to continue using your terminal for other tasks. To view the logs for each container, you can use:
 
 ```bash
-docker run -p 8000:80 -d property-management-api
+docker-compose logs app    # For the PHP-FPM container
+docker-compose logs webserver  # For the Nginx container
 ```
 
-This will run the app in the background, exposing port 8000. You can access the app at `http://localhost:8000`.
+### 9.4 **Stop the Containers**
+
+To stop and remove the containers when you're done, use the following command:
+
+```bash
+docker-compose down
+```
+
+This will stop the running containers and remove them, but leave the images intact.
 
 ---
+
 
 ## **10. Accessing the Application**
 
