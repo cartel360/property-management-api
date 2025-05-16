@@ -6,6 +6,9 @@ services:
     volumes:
       - .:/var/www
     working_dir: /var/www
+    environment:
+        XDEBUG_MODE: coverage
+    command: bash -c "vendor/bin/phpunit --coverage-html /var/www/storage/test-coverage && vendor/bin/phpunit --coverage-text && tail -f /dev/null"
 
   webserver:
     image: nginx:alpine
